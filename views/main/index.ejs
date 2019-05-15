@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>首页</title>
 </head>
+
 <body>
-    <%- include('header') -%>
-    
+    <%- include('../components/header') -%>
+    <div class="container">
+        <!-- 内容部分 -->
+        <div class="col-md-8">
+            <div class="well">
+                <h3>博客标题</h3>
+                <p>内容简介</p>
+                <a href="javascript:;" class="btn btn-info">阅读全文</a>
+                <span class="text-info pull-right">点击量 时间 作者 分类</span>
+            </div>
+            <div class="well">
+                <h3>博客标题</h3>
+                <p>内容简介</p>
+                <a href="javascript:;" class="btn btn-info">阅读全文</a>
+                <span class="text-info pull-right">点击量 时间 作者 分类</span>
+            </div>
+            <div class="well">
+                <h3>博客标题</h3>
+                <p>内容简介</p>
+                <a href="javascript:;" class="btn btn-info">阅读全文</a>
+                <span class="text-info pull-right">点击量 时间 作者 分类</span>
+            </div>
+        </div>
+        
+    </div>
+    <%- include('../components/footer') -%>
 </body>
+
 </html>
