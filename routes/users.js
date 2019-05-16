@@ -2,14 +2,11 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose')
 
-mongoose.connect("mongodb://localhost/shop", (err) => {
-    if (err) {
-        console.log(err)
-    } else {
-        console.log(" connect ok")
-    }
-})
-
+// mongoose.connect("mongodb://localhost/shop")
+mongoose.connect("mongodb://localhost/node_blog", { useNewUrlParser: true }).then(
+  () => { console.log("connect ok") },
+  err => { console.log('connect err') }
+)
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     res.render('main/index.ejs', { title: 'Express' });
