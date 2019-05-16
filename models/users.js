@@ -2,11 +2,25 @@ const mongoose = require('mongoose')
 
 
 const userSchema = new mongoose.Schema({
-   username: String,
-   password: String,
-   isAdmin: {
-      type: Boolean,
-      default: false 
-   }
+   name: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: 'string',
+      required: true
+    },
+    meta: {
+      createAt: {
+        type: Date,
+        default: Date.now()
+      }
+    }
 })
 module.exports = mongoose.model( 'user', userSchema, 'user')
