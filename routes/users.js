@@ -16,6 +16,13 @@ router.get('/', function(req, res, next) {
 router.get("/sign_up", (req, res, next) => {
   res.render('components/signup.ejs', {title: 'signup'})
 })
+
+// 实现注册功能
+router.post('/register', (req, res, next) => {
+  if (req.body) {
+    console.log(body)
+  }
+})
 // 配置登录模板页面
 router.get("/login", (req, res, next) => {
   res.render('components/login.ejs', {title: 'login'})
