@@ -242,8 +242,8 @@ html {
   
   @font-face {
     font-family: 'Glyphicons Halflings';
-    src: url("/static/fonts/glyphicons-halflings-regular.eot");
-    src: url("/static/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/static/fonts/glyphicons-halflings-regular.woff2") format("woff2"), url("/static/fonts/glyphicons-halflings-regular.woff") format("woff"), url("/static/fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("/static/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
+    src: url("/fonts/glyphicons-halflings-regular.eot");
+    src: url("/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/fonts/glyphicons-halflings-regular.woff2") format("woff2"), url("/fonts/glyphicons-halflings-regular.woff") format("woff"), url("/fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("/static/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
   
   .glyphicon {
     position: relative;
@@ -7222,9 +7222,6 @@ html {
     .add_seemore_links a {
       padding-left: 30px; }
   
-  .blog {
-    /* landing page */
-    /* blog post page */ }
     .blog table, .blog td, .blog th {
       border: 1px solid black; }
     .blog .blogHeader {
@@ -7827,10 +7824,6 @@ html {
       margin: 20px 0; }
     .docs .docs-alert {
       margin-top: 22px; }
-    .docs .compat {
-      /* Not compataible (pink with X) */
-      /* Is compataible (green with check) */
-      /* Partially compataible */ }
       .docs .compat td {
         text-align: center;
         border-width: 2px;
