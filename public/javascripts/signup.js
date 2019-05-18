@@ -14,6 +14,39 @@ $(() => {
     $("#signupForm").validate({
         errorElement : 'span',
         errorClass : 'help-block',
+        submitHandler: function(form) { 
+            var username = $("#username").val(),
+                password = $('#password').val(),
+                email = $('#email').val()
+            $.ajax({
+                url: '/users/register',
+                type: 'post',
+                data: {
+                    username,
+                    password,
+                    email
+                },
+                dataType: 'json',
+                success(res) {
+                var code = res.errorCode
+                $('#myModal').modal()
+                $('#myModal .modal-body').html(res.msg)
+                setTimeout(function() {
+                    if (code == 200) {
+                        location.href = '/users/sign_in'
+                    } else {
+                        location.href = '/users/sign_up'
+                    }
+                }, 2000)
+                    
+                },
+                error(jqXhr) {
+
+                }
+
+            })
+            return false
+        },
 
         rules : {
             username : "required",
@@ -64,7 +97,8 @@ $(() => {
             el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
             label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
             label.remove();
-        },
+        }
+        
 
     });
 
