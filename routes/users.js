@@ -13,7 +13,7 @@ mongoose.connect("mongodb://localhost/node_blog", { useNewUrlParser: true }).the
 mongoose.set('useCreateIndex', true)
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.render('main/index.ejs', { title: 'Express' });
+  res.render('main/index.ejs', { username: req.cookies.username });
 });
 
 // 配置注册页面模板
@@ -74,9 +74,10 @@ router.get("/sign_in", (req, res, next) => {
   res.render('signin.ejs')
 })
 
+// 实现登录功能
 router.post('/login', (req, res) => {
   var username = req.body.username,
-    password = req.body.password
+      password = req.body.password
   if (!(!!username && !!password)) {
     res.json({
       errorCode: -1,
@@ -85,7 +86,7 @@ router.post('/login', (req, res) => {
     })
   } else {
 
-    var user = userModel.findOne({ username }, (err, user) => {
+    userModel.findOne({ username }, (err, user) => {
       if (err) throw err
       // 判断是否找到,并对数据库中的密码比较是否相同(同步)
       if (user && bcrypt.compareSync(password, user.password)) {
@@ -94,6 +95,7 @@ router.post('/login', (req, res) => {
           isAdmin: user.isAdmin
         }, 'user', {expiresIn: '1h'})
         res.cookie('Token', token)
+        res.cookie('username', user.username) 
         res.json({
           errorCode: 200,
           msg: '登录成功',
@@ -106,9 +108,14 @@ router.post('/login', (req, res) => {
           data: {}
         })
       }
-
     })
   }
 })
 
+// 实现退出功能
+router.get('/sign_out', (req, res) => {
+  res.clearCookie('Token')
+  res.clearCookie('username') 
+  res.redirect('/')
+})
 module.exports = router;
