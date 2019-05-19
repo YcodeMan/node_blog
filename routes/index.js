@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('main/index.ejs', { title: 'Express' });
+  res.render('main/index.ejs', { username: req.cookies.username });
 });
 
 
