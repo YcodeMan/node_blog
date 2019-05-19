@@ -3,6 +3,7 @@ var router = express.Router();
 const mongoose = require('mongoose')
 const userModel = require('../models/users')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 // 连接数据库
 mongoose.connect("mongodb://localhost/node_blog", { useNewUrlParser: true }).then(
@@ -88,6 +89,11 @@ router.post('/login', (req, res) => {
       if (err) throw err
       // 判断是否找到,并对数据库中的密码比较是否相同(同步)
       if (user && bcrypt.compareSync(password, user.password)) {
+        var token = jwt.sign({
+          username: user.username,
+          isAdmin: user.isAdmin
+        }, 'user', {expiresIn: '1h'})
+        res.cookie('Token', token)
         res.json({
           errorCode: 200,
           msg: '登录成功',
