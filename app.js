@@ -23,6 +23,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', require('./routes/admin'))
+app.use((req, res, next) => {
+  res.render('error.ejs' , {
+    message: '该页面不存在',
+    error:{ status: 404, }
+  })
+})
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
