@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
 
 // 配置注册页面模板
 router.get("/sign_up", (req, res, next) => {
-  res.render('signup.ejs')
+  res.render('signup.ejs', {title: '注册'})
 })
 
 // 实现注册功能
@@ -71,7 +71,7 @@ router.post('/register', (req, res, next) => {
 })
 // 配置登录模板页面
 router.get("/sign_in", (req, res, next) => {
-  res.render('signin.ejs')
+  res.render('signin.ejs', {title: '登录'})
 })
 
 // 实现登录功能
