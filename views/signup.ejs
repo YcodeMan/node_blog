@@ -1,13 +1,5 @@
-<head>
-    <meta charset="utf-8">
-    <title>注册</title>
-    <link rel="stylesheet" href="/stylesheets/bootstrap.css">
-    <script src="/javascripts/jquery.min.js"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
-    <script src="/javascripts/jquery.validate.min.js"></script>
-    <script src="/javascripts/signup.js"></script>
-</head>
-
+<%- include('./components/base') -%>
+<script src="/javascripts/signup.js"></script>
 <!-- 注册面板 -->
 <div class="container">
     <h1 class="text-center text-danger">用户注册</h1><br>
@@ -46,16 +38,6 @@
         <a href="./sign_in" class="button">已有账号，去登录</a>
     </div>
     <!-- 模态框 -->
-    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog"
-        aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    消息提示
-                </div>
-                <div class="modal-body"></div>
-            </div>
-        </div>
-    </div>
+    <%- include('./components/modalMsg') -%>
 
 </div>

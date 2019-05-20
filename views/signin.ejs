@@ -1,13 +1,5 @@
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/stylesheets/bootstrap.css">
-    <script src="/javascripts/jquery.min.js"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
-    <script src="/javascripts/jquery.validate.min.js"></script>
-    <script src="/javascripts/signin.js"></script>
-    <title>登录</title>
-</head>
-
+<%- include('./components/base') -%>
+<script src="/javascripts/signin.js"></script>
 <div class="container">
 
     <!-- 登录面板 -->
@@ -33,17 +25,7 @@
     </form>
     <a href="/users/sign_up" class="col-sm-offset-5">没有账号？点击注册</a>
 
-     <!-- 模态框 -->
-     <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog"
-     aria-labelledby="mySmallModalLabel">
-     <div class="modal-dialog modal-sm" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 消息提示
-             </div>
-             <div class="modal-body"></div>
-         </div>
-     </div>
- </div>
+    <!-- 引入模态框 -->
+    <%- include('./components/modalMsg') -%>
 
 </div>
