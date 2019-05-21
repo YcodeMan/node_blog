@@ -19,7 +19,7 @@ $(() => {
                 password = $('#password').val(),
                 email = $('#email').val()
             $.ajax({
-                url: '/users/register',
+                url: '/register',
                 type: 'post',
                 data: {
                     username,
@@ -33,9 +33,9 @@ $(() => {
                     $('#myModal .modal-body').html(res.msg)
                     setTimeout(function () {
                         if (code == 200) {
-                            location.href = '/users/sign_in'
+                            location.href = '/sign_in'
                         } else {
-                            location.href = '/users/sign_up'
+                            location.href = '/sign_up'
                         }
                     }, 2000)
 
