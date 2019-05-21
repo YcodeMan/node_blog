@@ -6,7 +6,7 @@ $(() => {
             var username = $("#username").val(),
                 password = $('#password').val()
             $.ajax({
-                url: '/users/login',
+                url: '/login',
                 type: 'post',
                 data: {
                     username,
@@ -19,7 +19,8 @@ $(() => {
                     $('#myModal .modal-body').html(res.msg)
                     setTimeout(function () {
                         if (code == 200) {
-                            location.href = '../'
+                            var username = $.cookie('username')
+                            location.href = `/users/${username}`
                         } else {
                             location.reload()
                         }

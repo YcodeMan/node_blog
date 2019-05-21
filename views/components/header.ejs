@@ -53,17 +53,17 @@
                         <ul class="nav navbar-nav navbar-right">
                         <% if(!username) {  %> 
                             <li>
-                                <a href="/users/sign_in">Sign in</a>
+                                <a href="/sign_in">Sign in</a>
                             </li>
                             <li>
-                                <a href="/users/sign_up">Sign up</a>
+                                <a href="/sign_up">Sign up</a>
                             </li>
                         <% } else { %>
                             <li>
                                 <a href="javascript:void(1)">尊敬的用户 <%= username %> 你好</a>
                             </li>
                             <li>
-                                <a href="/users/sign_out">Sign out</a>
+                                <a href="/sign_out">Sign out</a>
                             </li>
                         <% } %>    
                         </ul>
