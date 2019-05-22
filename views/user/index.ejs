@@ -6,32 +6,42 @@
     <li><a href="/admin">管理首页</a></li>
     <li class="active">内容首页</li>
   </ol>
+  <% if(postsData.length) { %>
   <table class="table table-hover table-striped table-bordered">
     <thead>
       <tr>
         <th>ID</th>
-        <th>分类名称</th>
         <th>标题</th>
+        <th>分类名称</th>
         <th>作者</th>
         <th>添加时间</th>
         <th>阅读量</th>
         <th>操作</th>
       </tr>
     </thead>
+
     <tbody>
-      
+      <% for(let i = 0, len = postsData.length; i < len; i++) { %>
       <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
+        <td><%= i + 1 %></td>
+        <td><%= postsData[i].title %></td>
+        <td><%= postsData[i].category %></td>
+        <td><%= postsData[i].titleAuthor %></td>
+        <td><%= postsData[i].meta.createdAt %></td>
+        <td><%= postsData[i].pv %></td>
         <td>
           <a href="#" class="btn btn-default">修改</a>
           <a href="#" class="btn btn-danger">删除</a>
         </td>
       </tr>
-      
+      <% } %>
     </tbody>
   </table>
+  <button class="btn btn-primary">Add More</button>
+  <% } else { %>
+  <div class="jumbotron">
+    <h1>Hello, world!</h1>
+    <p>您还未有自己的文章快去添加吧</p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Add more</a></p>
+  </div>
+  <% } %>
