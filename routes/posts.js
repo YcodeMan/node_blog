@@ -1,7 +1,20 @@
 const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
-const postModel = require('../models/posts') 
+const postModel = require('../models/posts')
+const marked = require("marked") 
+
+// 配置marked
+marked.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: false,
+    breaks: false,
+    pedantic: false,
+    sanitize: true,
+    smartLists: true,
+    smartypants: false
+})
 
 router.get('/', (req, res, next) => {
     res.json({
