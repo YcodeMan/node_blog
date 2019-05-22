@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const mongoose = require('mongoose')
 const connectDB = require('../config/connectDB')
 const userModel = require('../models/users')
 
 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
+connectDB() 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -82,7 +81,7 @@ router.post('/login', (req, res) => {
       data: {}
     })
   } else {
-
+    
     userModel.findOne({ username }, (err, user) => {
       if (err) throw err
       // 判断是否找到,并对数据库中的密码比较是否相同(同步)
@@ -92,7 +91,7 @@ router.post('/login', (req, res) => {
           username: user.username,
           isAdmin: user.isAdmin
         }, 'user', {expiresIn: '1h'})
-        // 给token加密
+        
        
         res.cookie('Token', token)
         res.cookie('username', user.username) 

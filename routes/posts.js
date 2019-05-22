@@ -1,9 +1,15 @@
 const express = require('express')
 const router = express.Router()
-
+const jwt = require('jsonwebtoken')
+const postModel = require('../models/posts') 
 
 router.get('/', (req, res, next) => {
-
+    res.json({
+        errorCode: 200,
+        msg: '',
+        data: {}
+    })
+    next()
 })
 
 
@@ -14,6 +20,7 @@ router.get('/addPost', (req, res, nexr) => {
 
 // 处理添加文章请求
 router.post('/addArticle', (req, res, next) => {
+    console.log(1232543)
     var title = req.body.title,
         author = req.body.author,
         category = req.body.category,
@@ -27,36 +34,60 @@ router.post('/addArticle', (req, res, next) => {
             data: {}
         })
     } else {
-        var decoded = jwt.verify(req.cookies.Token, 'user')
-        postModel.find({ "user": title }, (err, findData) => {
-            if (err) throw err;
-            if (findData.length != 0) {
+        jwt.verify(req.cookies.Token, 'user', (err, decoded) => {
+           
+            if (err) {
                 res.json({
-                    errorCode: 302,
-                    msg: '数据已存在,无法在插入新数据',
+                    errorCode: -1,
+                    msg: 'token已经过期了',
+                    data: {}
+                })
+               console.log(err.message)
+               console.log(err.expiredAt > new Date())
+            }
+            console.log(decoded)
+            if (!decoded.username) {
+                res.json({
+                    errorCode: 601,
+                    msg: "请重新登录",
                     data: {}
                 })
             } else {
-                const post = {
-                    'user': decoded._id,
-                    'titleAuthor': author,
-                    'title': title,
-                    'intro': intro,
-                    'category': category,
-                    'content': content
-                }
-                postModel.create(post, (err, data) => {
-                    if (err) throw err
-                    res.json({
-                        errorCode: 200,
-                        msg: '添加文章信息成功',
-                        data: {}
-                    })
-                   
-                    // res.redirect(`/posts/${res._id}`)
-                })
+                postModel.find({ "title": title }, (err, findData) => {
+                    if (err) throw err;
+                    if (findData.length != 0) {
+                        res.json({
+                            errorCode: 302,
+                            msg: '数据已存在,无法在插入新数据',
+                            data: {}
+                        })
+                    } else {
+                        const post = {
+                            'id': decoded._id,
+                            'titleAuthor': author,
+                            'user': req.cookies.username,
+                            'title': title,
+                            'intro': intro,
+                            'category': category,
+                            'content': content
+                        }
+                        postModel.create(post, (err, data) => {
+                            if (err) throw err
+                            res.json({
+                                errorCode: 200,
+                                msg: '添加文章信息成功',
+                                data: {}
+                            })
 
+                            // res.redirect(`/posts/${res._id}`)
+                        })
+
+                    }
+                })
             }
         })
+
     }
 })
+
+module.exports = router
