@@ -38,9 +38,9 @@ $(() => {
                     $('#myModal .modal-body').html(res.msg)
                     setTimeout(function () {
                         if (code == 200) {
-                          //  location.href = '../'
+                        location.href = '../'
                         } else {
-                           // location.reload()
+                         location.reload()
                         }
                     }, 2000)
                 },
@@ -98,4 +98,7 @@ $(() => {
         }
     })
 
+    $('#returnIndex').click(() => {
+        location.href = '../../'
+    })
 })
