@@ -23,12 +23,12 @@
 
     <tbody>
       <% for(let i = 0, len = postsData.length; i < len; i++) { %>
-      <tr>
+      <tr style="cursor: pointer" class="psotClass" data-id="<%= postsData[i]._id  %>">
         <td><%= i + 1 %></td>
         <td><%= postsData[i].title %></td>
         <td><%= postsData[i].category %></td>
         <td><%= postsData[i].titleAuthor %></td>
-        <td><%= postsData[i].meta.createdAt %></td>
+        <td><%= postsData[i].meta.createdAt.toLocaleDateString() %></td>
         <td><%= postsData[i].pv %></td>
         <td>
           <a href="#" class="btn btn-primary">修改</a>
@@ -46,3 +46,4 @@
     <p><a class="btn btn-primary btn-lg" href="./posts/addPost" role="button">Add more</a></p>
   </div>
   <% } %>
+  
