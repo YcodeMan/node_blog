@@ -2,9 +2,23 @@ var express = require('express');
 var router = express.Router();
 const connectDB = require('../config/connectDB')
 const postsModel = require('../models/posts')
+const marked = require("marked")
 
 // 连接数据库
 connectDB()
+
+// 配置marked
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: false,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+})
+ 
 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -22,11 +36,6 @@ router.use((req, res, next) => {
 router.use((req, res, next) => {
   jwt.verify(req.cookies.Token, 'user', (err, decoded) => {
     if (err) {
-      // res.json({
-      //   errorCode: 604,
-      //   msg: "token 已经过期",
-      //   data: {}
-      // })
       res.redirect('/sign_in')
     }
     var token = jwt.sign({
@@ -57,7 +66,7 @@ router.get('/', function (req, res, next) {
 router.get('/:username', (req, res, next) => {
   var user = req.cookies.username
   if (req.params.username != user) {
-    res.redirect(`/users/${user}`)
+    return res.redirect(`/users/${user}`)
   }
   postsModel.find({"user":user }, (err, data) => {
     if (err) throw err
@@ -66,9 +75,6 @@ router.get('/:username', (req, res, next) => {
       postsData: data
     })
   })
-  
-
-  
 })
 
 module.exports = router;
