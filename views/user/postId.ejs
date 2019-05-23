@@ -1,0 +1,20 @@
+<%- include('../components/base.ejs')%>
+<div class="container">
+    <div class="col-md-8">
+        <div class="jumbotron">
+            <div class="container">
+                <h2><%= data.title %></h2>
+                <p>
+                    <span class="text-info">
+                        阅读量：<%=data.pv%> |
+                         时间：<%= data.meta.createdAt.toLocaleDateString() %> 
+                         |
+                        作者:<%=data.titleAuthor%> | 分类:<%=data.category%></span>
+                </p>
+                <p><%= data.intro %></p>
+                <hr>
+                <p><%= data.content %></p>
+            </div>
+        </div>
+    </div>
+</div>
