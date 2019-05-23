@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const postModel = require('../models/posts')
-const marked = require("marked") 
+const marked = require("marked")
 
 // 配置marked
 marked.setOptions({
@@ -33,7 +33,6 @@ router.get('/addPost', (req, res, nexr) => {
 
 // 处理添加文章请求
 router.post('/addArticle', (req, res, next) => {
-    console.log(1232543)
     var title = req.body.title,
         author = req.body.author,
         category = req.body.category,
@@ -48,17 +47,13 @@ router.post('/addArticle', (req, res, next) => {
         })
     } else {
         jwt.verify(req.cookies.Token, 'user', (err, decoded) => {
-           
             if (err) {
                 res.json({
                     errorCode: -1,
                     msg: 'token已经过期了',
                     data: {}
                 })
-               console.log(err.message)
-               console.log(err.expiredAt > new Date())
             }
-            console.log(decoded)
             if (!decoded.username) {
                 res.json({
                     errorCode: 601,
@@ -91,8 +86,6 @@ router.post('/addArticle', (req, res, next) => {
                                 msg: '添加文章信息成功',
                                 data: {}
                             })
-
-                            // res.redirect(`/posts/${res._id}`)
                         })
 
                     }
@@ -101,6 +94,24 @@ router.post('/addArticle', (req, res, next) => {
         })
 
     }
+})
+
+// 查找通过id查找文章
+router.get('/:id', (req, res, next) => {
+    console.log('23dss43')
+    postModel.findById({ _id: req.params.id }, (err, data) => {
+        if (err) throw err
+        if (data.length != 0) {
+            res.render('user/postId', { title: '用户首页', data: data })
+        } else {
+            res.json({
+                errorCode: -1,
+                msg: '该数据不存在',
+                data: {}
+            })
+        }
+
+    })
 })
 
 module.exports = router
