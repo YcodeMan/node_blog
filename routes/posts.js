@@ -98,11 +98,17 @@ router.post('/addArticle', (req, res, next) => {
 
 // 查找通过id查找文章
 router.get('/:id', (req, res, next) => {
-    console.log('23dss43')
     postModel.findById({ _id: req.params.id }, (err, data) => {
         if (err) throw err
         if (data.length != 0) {
-            res.render('user/postId', { title: '用户首页', data: data })
+            markedIntro = marked(data.intro)
+            markedData = marked(data.content)
+            res.render('user/postId', { 
+                title: '用户首页',
+                data: data, 
+                markedIntro,
+                markedData
+            })
         } else {
             res.json({
                 errorCode: -1,
@@ -110,7 +116,6 @@ router.get('/:id', (req, res, next) => {
                 data: {}
             })
         }
-
     })
 })
 
