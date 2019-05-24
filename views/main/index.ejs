@@ -1,36 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>首页</title>
-</head>
-
 <body>
     <%- include('../components/header') -%>
     <div class="container">
         <!-- 内容部分 -->
         <div class="col-md-8">
+            <% if (data) {  %>
+            <% for (let i = 0, len = data.length; i < len; i++) { %>
             <div class="well">
-                <h3>博客标题</h3>
-                <p>内容简介</p>
-                <a href="javascript:;" class="btn btn-info">阅读全文</a>
-                <span class="text-info pull-right">点击量 时间 作者 分类</span>
+                <h3>博客标题: <%= data[i].title %></h3>
+                <p>内容简介: <%= data[i].intro %></p>
+                <a href="/<%= data[i]._id %>"  class="btn btn-info">阅读全文</a>
+                <span class="text-info pull-right">
+                    点击量: <%= data[i].pv %> |
+                    时间: <%= data[i].meta.createdAt.toLocaleDateString()%> |
+                    作者: <%= data[i].titleAuthor%> |
+                    分类: <%= data[i].category %>
+                </span>
             </div>
-            <div class="well">
-                <h3>博客标题</h3>
-                <p>内容简介</p>
-                <a href="javascript:;" class="btn btn-info">阅读全文</a>
-                <span class="text-info pull-right">点击量 时间 作者 分类</span>
+            <% } %>
+            <% } else { %>
+            <div class="jumbotron">
+                <h1>Hello, world!</h1>
+                <p>该网站还没有任何内容,快取注册登录写下你的内容</p>
+                <p><a class="btn btn-primary btn-lg" href="/sign_up" role="button">登录</a></p>
             </div>
-            <div class="well">
-                <h3>博客标题</h3>
-                <p>内容简介</p>
-                <a href="javascript:;" class="btn btn-info">阅读全文</a>
-                <span class="text-info pull-right">点击量 时间 作者 分类</span>
-            </div>
+            <% } %>
         </div>
     </div>
     <%- include('../components/footer') -%>
