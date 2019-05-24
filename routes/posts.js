@@ -99,24 +99,39 @@ router.post('/addArticle', (req, res, next) => {
 // 查找通过id查找文章
 router.get('/:id', (req, res, next) => {
     postModel.findById({ _id: req.params.id }, (err, data) => {
-        if (err) throw err
-        if (data.length != 0) {
-            markedIntro = marked(data.intro)
-            markedData = marked(data.content)
-            res.render('user/postId', { 
-                title: '用户首页',
-                data: data, 
-                markedIntro,
-                markedData
-            })
+        if (err) {
+            res.redirect('../../')
         } else {
-            res.json({
-                errorCode: -1,
-                msg: '该数据不存在',
-                data: {}
-            })
+            if (data.length != 0) {
+                markedIntro = marked(data.intro)
+                markedData = marked(data.content)
+                res.cookie('postId', req.params.id)
+                res.render('user/postId', {
+                    title: '用户首页',
+                    data: data,
+                    markedIntro,
+                    markedData
+                })
+
+            } else {
+                res.json({
+                    errorCode: -1,
+                    msg: '该数据不存在',
+                    data: {}
+                })
+            }
+
         }
+
     })
+})
+
+router.get('/:id/edit', (req, res, next) => {
+    var id = req.cookies.postId
+    if (id != req.params.id) {
+        res.redirect(`../${id}/edit`)
+    }
+    res.render('user/edit', {title: '修改文章内容'})
 })
 
 module.exports = router
