@@ -1,20 +1,23 @@
 <%- include('../components/base.ejs')%>
 <div class="container">
-    <div class="col-md-8">
+    <div class="col-md-8 well">
         <div class="jumbotron">
             <div class="container">
                 <h2><%= data.title %></h2>
                 <p>
                     <span class="text-info">
-                        阅读量：<%=data.pv%> |
-                         时间：<%= data.meta.createdAt.toLocaleDateString() %> 
-                         |
-                        作者:<%=data.titleAuthor%> | 分类:<%=data.category%></span>
+                        阅读量:<%=data.pv%> |
+                        时间:<%= data.meta.createdAt.toLocaleDateString() %>
+                        |
+                        作者:<%=data.titleAuthor%> | 分类:<%=data.category%>
+                    </span>
                 </p>
-                <p><%= data.intro %></p>
+                简介：<%- markedIntro %>
                 <hr>
-                <p><%= data.content %></p>
+                内容：<%- markedData %>
             </div>
+            <a href="../../" class="btn bnt-primary">放回上一级</a>
+            <button id="edit" class="btn bnt-primary">修改文章</button>
         </div>
     </div>
 </div>
