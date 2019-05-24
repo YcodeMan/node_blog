@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const connectDB = require('../config/connectDB')
 const postsModel = require('../models/posts')
 const marked = require("marked")
 
-// 连接数据库
-connectDB()
+
 
 // 配置marked
 marked.setOptions({
