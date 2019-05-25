@@ -17,11 +17,6 @@ marked.setOptions({
 })
 
 router.get('/', (req, res, next) => {
-    res.json({
-        errorCode: 200,
-        msg: '',
-        data: {}
-    })
     next()
 })
 
@@ -37,10 +32,11 @@ router.post('/addArticle', (req, res, next) => {
         author = req.body.author,
         category = req.body.category,
         intro = req.body.intro,
-        content = req.body.content
+        content = req.body.content,
+        id = req.cookies.postId
     // 合法性校验
     if (!(!!title && !!author && !!category && !!intro && !!content)) {
-        res.json({
+        return res.json({
             errorCode: -1,
             msg: '请输入数据',
             data: {}
@@ -48,7 +44,7 @@ router.post('/addArticle', (req, res, next) => {
     } else {
         jwt.verify(req.cookies.Token, 'user', (err, decoded) => {
             if (err) {
-                res.json({
+                return res.json({
                     errorCode: -1,
                     msg: 'token已经过期了',
                     data: {}
@@ -61,12 +57,13 @@ router.post('/addArticle', (req, res, next) => {
                     data: {}
                 })
             } else {
+                // 不能添加相同的标题
                 postModel.find({ "title": title }, (err, findData) => {
                     if (err) throw err;
                     if (findData.length != 0) {
-                        res.json({
+                        return res.json({
                             errorCode: 302,
-                            msg: '数据已存在,无法在插入新数据',
+                            msg: '标题已存在,无法在插入新数据',
                             data: {}
                         })
                     } else {
@@ -79,15 +76,26 @@ router.post('/addArticle', (req, res, next) => {
                             'category': category,
                             'content': content
                         }
-                        postModel.create(post, (err, data) => {
-                            if (err) throw err
-                            res.json({
-                                errorCode: 200,
-                                msg: '添加文章信息成功',
-                                data: {}
+                        if (req.cookies.postId) {
+                            postModel.update({_id: req.cookies.postId},post, (err, data) => {
+                                if (err) throw err
+                                res.json({
+                                    errorCode: 200,
+                                    msg: '更新数据成功',
+                                    data: {}
+                                }) 
                             })
-                        })
-
+                        } else {
+                            postModel.create(post, (err, data) => {
+                                if (err) throw err
+                             return res.json({
+                                    errorCode: 200,
+                                    msg: '添加文章信息成功',
+                                    data: {}
+                                })
+                            })
+                        }
+                       
                     }
                 })
             }
@@ -103,9 +111,9 @@ router.get('/:id', (req, res, next) => {
             res.redirect('../../')
         } else {
             if (data.length != 0) {
+                res.cookie('postId', req.params.id)
                 markedIntro = marked(data.intro)
                 markedData = marked(data.content)
-                res.cookie('postId', req.params.id)
                 res.render('user/postId', {
                     title: '用户首页',
                     data: data,
@@ -120,18 +128,46 @@ router.get('/:id', (req, res, next) => {
                     data: {}
                 })
             }
-
         }
-
     })
 })
-
+// 设置修改文章内容
 router.get('/:id/edit', (req, res, next) => {
-    var id = req.cookies.postId
-    if (id != req.params.id) {
-        res.redirect(`../${id}/edit`)
-    }
-    res.render('user/edit', {title: '修改文章内容'})
+    
+    postModel.find({_id: req.params.id}, (err, data) => {
+        if (err) { 
+            next()
+        } else {
+            res.cookie('postId', req.params.id)
+            var data = data[0]
+            if (data.length !=0) {
+                res.render('user/addPost', {
+                    title: '修改文章内容',
+                    data
+                })
+            }
+        }
+       
+    }) 
 })
-
+router.post('/:id/addArticle', (req, res, next) => {    
+        res.redirect(307, '../addArticle')   
+})
+// 删除文章
+router.get('/:id/del', (req, res, next) => {
+    postModel.remove({_id: req.params.id}, (err, data) => {
+        if (err) { 
+            next()
+        } else {
+            if (data.ok == 1) {
+                res.json({
+                    errorCode: 200,
+                    msg: '文章删除成功',
+                    data: {}
+                })
+            }
+        }
+       
+    }) 
+})
 module.exports = router
