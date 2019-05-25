@@ -38,7 +38,7 @@ $(() => {
                     $('#myModal .modal-body').html(res.msg)
                     setTimeout(function () {
                         if (code == 200) {
-                        location.href = '../'
+                        location.href = '../../'
                         } else {
                          location.reload()
                         }
