@@ -49,6 +49,7 @@ router.use((req, res, next) => {
 
 // 把文章操作的路由挂载在当前用户下
 router.use('/:username/posts', (req, res, next) => {
+  
   if (req.params.username !== req.cookies.username) {
     res.redirect(`/users/${req.cookies.username}/posts`)
     next()
@@ -63,6 +64,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/:username', (req, res, next) => {
   var user = req.cookies.username
+  res.clearCookie('postId')
   if (req.params.username != user) {
     return res.redirect(`/users/${user}`)
   }
